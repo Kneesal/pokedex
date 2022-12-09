@@ -17,4 +17,13 @@ code {
   border-radius: 12px;
   padding: 8px;
   background-color: white;
+  text-align: center;
+  display: inline-table;
+  transition: all 1.5s;
+}
+
+.Cards:hover {
+  transition: all 100ms;
+  background-color: gray;
+  border: 4px solid black;
 }
