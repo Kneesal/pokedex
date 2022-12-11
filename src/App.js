@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Card from "./Card.js";
+import SearchBox from "./SearchBox.js";
 
 class App extends Component {
   constructor(props) {
@@ -7,12 +8,13 @@ class App extends Component {
     this.state = {
       pokemon: [],
       pokedescriptions: [],
+      searchinput: ''
     };
   }
 
   componentDidMount() {
     // TODO: convert to async function to make syntax cleaner
-    fetch(`https://pokeapi.co/api/v2/pokemon/?limit=151`)
+    fetch(`https://pokeapi.co/api/v2/pokemon/?limit=904`)
       .then((response) => response.json())
       .then((pokemonlist) => {
         return pokemonlist.results.forEach((pokemon) => {
@@ -35,14 +37,20 @@ class App extends Component {
       });
   }
 
+  handleChange = (event) => {
+    event.preventDefault()
+    this.setState({searchinput: event.target.value})
+  }
+
+
   render() {
-    console.log(this.state.pokedescriptions);
-    //TODO: look at robofriends carList and sse if we can refactor that code in here
+    const filteredPokemon = this.state.pokemon.filter(pokemon => pokemon.name.toLowerCase().includes(this.state.searchinput.toLowerCase()));
     return (
       <div>
         <h1>Kanto Pokédex</h1>
+        <SearchBox handleChange={this.handleChange}/>
         <Card
-          pokemon={this.state.pokemon}
+          pokemon={filteredPokemon}
           pokedata={this.state.pokedescriptions}
         />
       </div>

@@ -5,11 +5,27 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+h1{
+  text-align: center;
+}
+
+.searchbox{
+  padding: 30px;
+  text-align: center;
+  }
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .Cards {
@@ -18,12 +34,24 @@ code {
   padding: 8px;
   background-color: white;
   text-align: center;
-  display: inline-table;
-  transition: all 1.5s;
+  transition: all 100ms;
+  max-width: 175px;
+  min-width: 175px
 }
 
 .Cards:hover {
   transition: all 100ms;
   background-color: gray;
-  border: 4px solid black;
+  border: 1px solid black;
+  scale: 0.96;
 }
+
+.hidden{
+  display: none;
+}
+
+.active{
+  
+}
+
+
