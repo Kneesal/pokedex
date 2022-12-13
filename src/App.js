@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Card from "./Card.js";
 import SearchBox from "./SearchBox.js";
+import Modal from "./Modal.js";
 
 class App extends Component {
   constructor(props) {
@@ -8,7 +9,10 @@ class App extends Component {
     this.state = {
       pokemon: [],
       pokedescriptions: [],
-      searchinput: ''
+      searchinput: "",
+      show: false,
+      selectedCard: [],
+      selectedSprite: [],
     };
   }
 
@@ -38,21 +42,35 @@ class App extends Component {
   }
 
   handleChange = (event) => {
-    event.preventDefault()
-    this.setState({searchinput: event.target.value})
-  }
+    event.preventDefault();
+    this.setState({ searchinput: event.target.value });
+  };
 
+  showModal = (key) => {
+    this.setState((prevstate)=>({
+      show: !prevstate.show,
+      selectedCard: this.state.pokedescriptions.filter(
+        (pokemon) => pokemon.id === key
+      ),
+      selectedSprite: this.state.pokemon.filter(
+        (pokemon) => pokemon.id === key
+      ),
+    }))
+    ;
+  };
 
   render() {
-    const filteredPokemon = this.state.pokemon.filter(pokemon => pokemon.name.toLowerCase().includes(this.state.searchinput.toLowerCase()));
+    console.log(this.state.show)
+    const filteredPokemon = this.state.pokemon.filter((pokemon) =>
+      pokemon.name.toLowerCase().includes(this.state.searchinput.toLowerCase())
+    );
+    console.log(this.state.pokedescriptions)
     return (
       <div>
         <h1>Kanto Pokédex</h1>
-        <SearchBox handleChange={this.handleChange}/>
-        <Card
-          pokemon={filteredPokemon}
-          pokedata={this.state.pokedescriptions}
-        />
+        <SearchBox handleChange={this.handleChange} />
+        <Modal show={this.state.show} selectedCard = {this.state.selectedCard} selectedSprite = {this.state.selectedSprite} />
+        <Card pokemon={filteredPokemon} showModal={this.showModal} />
       </div>
     );
   }
