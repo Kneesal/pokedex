@@ -67,9 +67,9 @@ class App extends Component {
     console.log(this.state.pokedescriptions)
     return (
       <div>
-        <h1>Kanto Pokédex</h1>
+        <h1>Pokédex</h1>
         <SearchBox handleChange={this.handleChange} />
-        <Modal show={this.state.show} selectedCard = {this.state.selectedCard} selectedSprite = {this.state.selectedSprite} />
+        <Modal show={this.state.show} selectedCard = {this.state.selectedCard} selectedSprite = {this.state.selectedSprite} showModal = {this.showModal} />
         <Card pokemon={filteredPokemon} showModal={this.showModal} />
       </div>
     );
