@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center
+  text-align: center;
   
 }
 
@@ -31,23 +31,24 @@ code {
   padding: 8px;
   background-color: white;
   text-align: center;
-  transition: all 100ms;
+  transition: all 300ms;
   max-width: 200px;
   min-width: 200px;
 }
 
 .Cards:hover {
-  transition: all 100ms;
+  transition: all 200ms;
   background-color: gray;
   border: 1px solid black;
   scale: 0.96;
+  z-index: 0;
 }
 
 .modalbg {
   background-color: rgba(0, 0, 0, 0.4);
   width: 100vw;
   height: 100vh;
-  z-index: 0;
+  z-index: 1;
   top: 0;
   position: absolute;
   display: flex;
@@ -56,8 +57,10 @@ code {
 }
 
 .content {
+  position: relative;
   border-radius: 12px;
   background-color: white;
   border: 1px solid black;
-  padding: 20px
+  padding: 20px;
+  z-index: 1;
 }

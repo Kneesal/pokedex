@@ -4,6 +4,7 @@ import SearchBox from "./SearchBox.js";
 import Modal from "./Modal.js";
 import Scroll from "./Scroll.js";
 
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -45,7 +46,6 @@ class App extends Component {
   handleChange = (event) => {
     event.preventDefault();
     this.setState({ searchinput: event.target.value });
-    // state ? event.target.class
   };
 
   showModal = (key) => {
@@ -62,12 +62,10 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state.show)
     const filteredPokemon = this.state.pokemon.filter((pokemon) =>
       pokemon.name.toLowerCase().includes(this.state.searchinput.toLowerCase())
     );
-    console.log(this.state.pokedescriptions)
-    return (
+    return this.state.pokemon.length ? (
       <div>
         <h1>Pokédex</h1>
         <SearchBox handleChange={this.handleChange} />
@@ -76,7 +74,7 @@ class App extends Component {
           <Card pokemon={filteredPokemon} showModal={this.showModal} />
         </Scroll>
       </div>
-    );
+    ): <h1>Loading...</h1>;
   }
 }
 
