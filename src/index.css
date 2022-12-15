@@ -32,8 +32,8 @@ code {
   background-color: white;
   text-align: center;
   transition: all 100ms;
-  max-width: 175px;
-  min-width: 175px
+  max-width: 200px;
+  min-width: 200px;
 }
 
 .Cards:hover {
@@ -50,7 +50,14 @@ code {
   z-index: 0;
   top: 0;
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-
-
+.content {
+  border-radius: 12px;
+  background-color: white;
+  border: 1px solid black;
+  padding: 20px
+}

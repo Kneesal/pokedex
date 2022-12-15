@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Card from "./Card.js";
 import SearchBox from "./SearchBox.js";
 import Modal from "./Modal.js";
+import Scroll from "./Scroll.js";
 
 class App extends Component {
   constructor(props) {
@@ -44,6 +45,7 @@ class App extends Component {
   handleChange = (event) => {
     event.preventDefault();
     this.setState({ searchinput: event.target.value });
+    // state ? event.target.class
   };
 
   showModal = (key) => {
@@ -55,7 +57,7 @@ class App extends Component {
       selectedSprite: this.state.pokemon.filter(
         (pokemon) => pokemon.id === key
       ),
-    }))
+    })) 
     ;
   };
 
@@ -70,7 +72,9 @@ class App extends Component {
         <h1>Pokédex</h1>
         <SearchBox handleChange={this.handleChange} />
         <Modal show={this.state.show} selectedCard = {this.state.selectedCard} selectedSprite = {this.state.selectedSprite} showModal = {this.showModal} />
-        <Card pokemon={filteredPokemon} showModal={this.showModal} />
+        <Scroll>
+          <Card pokemon={filteredPokemon} showModal={this.showModal} />
+        </Scroll>
       </div>
     );
   }
