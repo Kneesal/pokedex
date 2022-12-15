@@ -1,7 +1,6 @@
 import React from "react";
 
 const Modal = ({ selectedCard, selectedSprite, show, showModal }) => {
-  console.log("selectedsprite", selectedSprite[0])
   let englishText = ''
   for(let i = 0; i < selectedCard[0]?.flavor_text_entries?.length; i++){ //using for loop so that we can break it as soon as first english entry is found
     if(selectedCard[0].flavor_text_entries[i]?.language?.name === "en"){

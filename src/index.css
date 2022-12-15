@@ -9,6 +9,12 @@ body {
   
 }
 
+@font-face {
+  font-family: "PokemonSolid";
+  src: url(./fonts/PokemonSolid.ttf) format("truetype");
+  font-size: xx-large;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -63,4 +69,12 @@ code {
   border: 1px solid black;
   padding: 20px;
   z-index: 1;
+}
+
+.title {
+  font-family: "PokemonSolid";
+}
+
+h4,h5 {
+  color: lightgray;
 }

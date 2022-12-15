@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import Card from "./Card.js";
-import SearchBox from "./SearchBox.js";
-import Modal from "./Modal.js";
-import Scroll from "./Scroll.js";
+import Card from "../Components/Card.js";
+import SearchBox from "../Components/SearchBox.js";
+import Modal from "../Components/Modal.js";
+import Scroll from "../Components/Scroll.js";
+import "../fonts/PokemonSolid.ttf"
 
 
 class App extends Component {
@@ -22,21 +23,21 @@ class App extends Component {
     // TODO: convert to async function to make syntax cleaner
     fetch(`https://pokeapi.co/api/v2/pokemon/?limit=904`)
       .then((response) => response.json())
-      .then((pokemonlist) => {
-        return pokemonlist.results.forEach((pokemon) => {
+      .then((pokemonlist) => { //fetched pokeon
+        return pokemonlist.results.forEach((pokemon) => { 
           fetch(pokemon.url)
             .then((response) => response.json())
-            .then((pokedata) => {
+            .then((pokedata) => { //fetch sprites
               fetch(pokedata.species.url)
                 .then((data) => data.json())
                 .then((formdata) =>
                   this.setState((prevstate) => ({
                     pokedescriptions:
-                      prevstate.pokedescriptions.concat(formdata),
+                      prevstate.pokedescriptions.concat(formdata), //fetched pokemon desciptions
                   }))
                 );
               return this.setState((prevState) => ({
-                pokemon: prevState.pokemon.concat(pokedata),
+                pokemon: prevState.pokemon.concat(pokedata), //store sprites in pokemon data //also has name and id of pkmn
               }));
             });
         });
@@ -65,16 +66,18 @@ class App extends Component {
     const filteredPokemon = this.state.pokemon.filter((pokemon) =>
       pokemon.name.toLowerCase().includes(this.state.searchinput.toLowerCase())
     );
-    return this.state.pokemon.length ? (
+    return this.state.pokedescriptions.length ? ( //we wait for pokedescriptions state because it contains all card and modal data and it populates lates
       <div>
-        <h1>Pokédex</h1>
+        <h1 className = "title">Pokédex</h1>
         <SearchBox handleChange={this.handleChange} />
         <Modal show={this.state.show} selectedCard = {this.state.selectedCard} selectedSprite = {this.state.selectedSprite} showModal = {this.showModal} />
         <Scroll>
           <Card pokemon={filteredPokemon} showModal={this.showModal} />
         </Scroll>
+        <h4> {`made with <3 for God's glory`} </h4>
+        <h5> {`Nisal Cottingham`} </h5>
       </div>
-    ): <h1>Loading...</h1>;
+    ): <h1 className = "title">Loading...</h1>;
   }
 }
 
