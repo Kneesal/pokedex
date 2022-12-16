@@ -8,6 +8,13 @@ const Modal = ({ selectedCard, selectedSprite, show, showModal }) => {
          break;
     }
   }
+  englishText.replace(/u'\f'/, /u'\n'/)
+  .replace(/u'\u00ad\n'/, /u''/)
+  .replace(/u'\u00ad'/, /u''/)
+  .replace(/u' -\n'/, /u' - '/)
+  .replace(/u'-\n'/, /u'-'/)
+  .replace(/u'\n'/, /u' '/)
+
 
   return show ? (
     <div className="modalbg">
