@@ -1,84 +1,82 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../Components/Card.js";
 import SearchBox from "../Components/SearchBox.js";
 import Modal from "../Components/Modal.js";
 import Scroll from "../Components/Scroll.js";
-import "../fonts/PokemonSolid.ttf"
+import "../fonts/PokemonSolid.ttf";
 
+const App = () => {
+  const [pokemon, setPokemon] = useState([]);
+  const [pokemondescriptions, setPokemonDescriptions] = useState([]);
+  const [searchinput, setSearchInput] = useState("");
+  const [show, setShow] = useState(false);
+  const [selectedCard, setSelectedCard] = useState([]);
+  const [selectedSprite, setSelectedSprite] = useState([]);
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      pokemon: [],
-      pokedescriptions: [],
-      searchinput: "",
-      show: false,
-      selectedCard: [],
-      selectedSprite: [],
-    };
-  }
+  useEffect(() => {
+    let ignore = false;
+    setPokemon([])
+    setPokemonDescriptions([])
+    const fetchData = async () => {
+      const response = await fetch(
+        `https://pokeapi.co/api/v2/pokemon/?limit=904`
+      ); //fetch all pokemon
+      const pokemonlist = await response.json();
 
-  componentDidMount() {
-    // TODO: convert to async function to make syntax cleaner
-    fetch(`https://pokeapi.co/api/v2/pokemon/?limit=904`)
-      .then((response) => response.json())
-      .then((pokemonlist) => { //fetched pokeon
-        return pokemonlist.results.forEach((pokemon) => { 
-          fetch(pokemon.url)
-            .then((response) => response.json())
-            .then((pokedata) => { //fetch sprites
-              fetch(pokedata.species.url)
-                .then((data) => data.json())
-                .then((formdata) =>
-                  this.setState((prevstate) => ({
-                    pokedescriptions:
-                      prevstate.pokedescriptions.concat(formdata), //fetched pokemon desciptions
-                  }))
-                );
-              return this.setState((prevState) => ({
-                pokemon: prevState.pokemon.concat(pokedata), //store sprites in pokemon data //also has name and id of pkmn
-              }));
-            });
-        });
+      pokemonlist.results.forEach(async (pokemon) => {
+        const response = await fetch(pokemon.url); //fetch pokemon specific data
+        const pokedata = await response.json();
+        const response2 = await fetch(pokedata.species.url); //fetch species data descriptions
+        const speciesdata = await response2.json();
+        if (!ignore) {
+          setPokemon((prevstate) => prevstate.concat(pokedata));
+          setPokemonDescriptions((prevstate) => prevstate.concat(speciesdata));
+        }
       });
-  }
+    };
+    fetchData();
 
-  handleChange = (event) => {
-    event.preventDefault();
-    this.setState({ searchinput: event.target.value });
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setSearchInput(e.target.value);
   };
 
-  showModal = (key) => {
-    this.setState((prevstate)=>({
-      show: !prevstate.show,
-      selectedCard: this.state.pokedescriptions.filter(
-        (pokemon) => pokemon.id === key
-      ),
-      selectedSprite: this.state.pokemon.filter(
-        (pokemon) => pokemon.id === key
-      ),
-    })) 
-    ;
-  };
-
-  render() {
-    const filteredPokemon = this.state.pokemon.filter((pokemon) =>
-      pokemon.name.toLowerCase().includes(this.state.searchinput.toLowerCase())
+  const showModal = (key) => {
+    setShow((prevstate) => !prevstate);
+    setSelectedCard(
+      pokemondescriptions.filter((pokemon) => pokemon.id === key)
     );
-    return this.state.pokedescriptions.length ? ( //we wait for pokedescriptions state because it contains all card and modal data and it populates lates
-      <div>
-        <h1 className = "title">Pokédex</h1>
-        <SearchBox handleChange={this.handleChange} />
-        <Modal show={this.state.show} selectedCard = {this.state.selectedCard} selectedSprite = {this.state.selectedSprite} showModal = {this.showModal} />
-        <Scroll>
-          <Card pokemon={filteredPokemon} showModal={this.showModal} />
-        </Scroll>
-        <h4> {`made with <3 for God's glory`} </h4>
-        <h5> {`Nisal Cottingham`} </h5>
-      </div>
-    ): <h1 className = "title">Loading...</h1>;
-  }
-}
+    setSelectedSprite(pokemon.filter((data) => data.id === key));
+  };
+
+  const filteredPokemon = pokemon.filter((pokemon) =>
+    pokemon.name.toLowerCase().includes(searchinput.toLowerCase())
+  );
+
+  return pokemondescriptions.length ? ( //we wait for pokedescriptions state because it contains all card and modal data and it populates later
+    <div>
+      <h1 className="title">Pokédex</h1>
+      <SearchBox handleChange={handleChange} />
+      <Modal
+        show={show}
+        selectedCard={selectedCard}
+        selectedSprite={selectedSprite}
+        showModal={showModal}
+      />
+      <Scroll>
+        <Card pokemon={filteredPokemon} showModal={showModal} />
+      </Scroll>
+      <h4> {`made with <3`} </h4>
+      <h5> {`Nisal Cottingham`} </h5>
+    </div>
+  ) : (
+    <h1 className="title">Loading...</h1>
+  );
+};
 
 export default App;

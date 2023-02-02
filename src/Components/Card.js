@@ -2,6 +2,7 @@ import React from "react";
 
 
 const Card = ({ pokemon, showModal}) => {
+  console.log(pokemon)
   pokemon.sort((a, b) => a.id - b.id); //sort array so that it gives the correct order of the pokedex each time
   return (
     <div className="flex">
