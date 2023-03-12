@@ -1,27 +1,34 @@
 import React, { useState, useEffect } from "react";
-import Card from "../Components/Card.js";
+import Card from "../Components/Card";
 import SearchBox from "../Components/SearchBox.js";
 import Modal from "../Components/Modal.js";
 import Scroll from "../Components/Scroll.js";
 import "../fonts/PokemonSolid.ttf";
 
-const App = () => {
-  const [pokemon, setPokemon] = useState([]);
+const App:React.FC = () => {
+  const [pokemon, setPokemon] = useState<pokemonType>([]);
   const [pokemondescriptions, setPokemonDescriptions] = useState([]);
   const [searchinput, setSearchInput] = useState("");
   const [show, setShow] = useState(false);
   const [selectedCard, setSelectedCard] = useState([]);
   const [selectedSprite, setSelectedSprite] = useState([]);
 
+
+  type pokemonType = {
+      id: number,
+      name: string, 
+      sprites: {
+        front_default: string    
+      },
+  }[]
+
   useEffect(() => {
     let ignore = false;
-    setPokemon([])
-    setPokemonDescriptions([])
     const fetchData = async () => {
       const response = await fetch(
         `https://pokeapi.co/api/v2/pokemon/?limit=904`
       ); //fetch all pokemon
-      const pokemonlist = await response.json();
+      const pokemonlist = await response.json() /*as unknown as pokeListType; */
 
       pokemonlist.results.forEach(async (pokemon) => {
         const response = await fetch(pokemon.url); //fetch pokemon specific data
@@ -38,15 +45,17 @@ const App = () => {
 
     return () => {
       ignore = true;
+      setPokemon([])
+      setPokemonDescriptions([])
     };
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setSearchInput(e.target.value);
   };
 
-  const showModal = (key) => {
+  const showModal = (key:number) => {
     setShow((prevstate) => !prevstate);
     setSelectedCard(
       pokemondescriptions.filter((pokemon) => pokemon.id === key)
