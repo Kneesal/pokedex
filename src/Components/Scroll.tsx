@@ -1,9 +1,13 @@
 import React from 'react' 
 
-const Scroll = (props) => {
+interface reactChildren {
+    children: React.ReactNode
+}
+
+const Scroll: React.FC<reactChildren> = ({children}) => {
     return (
         <div style={{overflow: 'scroll', height: "70vh", border: "1px solid black"}}>
-            {props.children}
+            {children}
         </div>
     )
 }

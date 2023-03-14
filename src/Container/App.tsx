@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Card from "../Components/Card";
-import SearchBox from "../Components/SearchBox.js";
-import Modal from "../Components/Modal.js";
-import Scroll from "../Components/Scroll.js";
+import SearchBox from "../Components/SearchBox";
+import Modal from "../Components/Modal";
+import Scroll from "../Components/Scroll";
 import "../fonts/PokemonSolid.ttf";
 
 const App:React.FC = () => {
   const [pokemon, setPokemon] = useState<pokemonType>([]);
   const [pokemondescriptions, setPokemonDescriptions] = useState([]);
   const [searchinput, setSearchInput] = useState("");
-  const [show, setShow] = useState(false);
-  const [selectedCard, setSelectedCard] = useState([]);
-  const [selectedSprite, setSelectedSprite] = useState([]);
-
+  const [show, setShow] = useState<boolean>(false);
+  const [selectedCard, setSelectedCard] = useState<selectedCardType>([]);
+  const [selectedSprite, setSelectedSprite] = useState<selectedSpriteType>([]);
 
   type pokemonType = {
       id: number,
@@ -22,13 +21,39 @@ const App:React.FC = () => {
       },
   }[]
 
+  interface pokeList {
+    results:{
+      name: string,
+      url: string
+    }[]
+  }
+
+  type selectedSpriteType = {
+    id: number;
+    name: string;
+    sprites: {
+      front_default: string;
+    };
+  }[]
+
+  type selectedCardType = {
+    name: string,
+    id: number,
+    flavor_text_entries: {
+      language: {
+        name: string
+      }, 
+    flavor_text:string}[]
+  }[]
+  
+
   useEffect(() => {
     let ignore = false;
     const fetchData = async () => {
       const response = await fetch(
         `https://pokeapi.co/api/v2/pokemon/?limit=904`
       ); //fetch all pokemon
-      const pokemonlist = await response.json() /*as unknown as pokeListType; */
+      const pokemonlist:pokeList = await response.json()
 
       pokemonlist.results.forEach(async (pokemon) => {
         const response = await fetch(pokemon.url); //fetch pokemon specific data
@@ -58,7 +83,7 @@ const App:React.FC = () => {
   const showModal = (key:number) => {
     setShow((prevstate) => !prevstate);
     setSelectedCard(
-      pokemondescriptions.filter((pokemon) => pokemon.id === key)
+      pokemondescriptions.filter((pokemon:{id: number}) => pokemon.id  === key)
     );
     setSelectedSprite(pokemon.filter((data) => data.id === key));
   };
