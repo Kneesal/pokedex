@@ -49,7 +49,9 @@ const App:React.FC = () => {
 
   useEffect(() => {
     let ignore = false;
-    const fetchData = async () => {
+
+
+    const fetchData = async() => {
       const response = await fetch(
         `https://pokeapi.co/api/v2/pokemon/?limit=904`
       ); //fetch all pokemon
