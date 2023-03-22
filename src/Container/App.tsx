@@ -16,6 +16,9 @@ const App:React.FC = () => {
   type pokemonType = {
       id: number,
       name: string, 
+      species: {
+        url: string
+      },
       sprites: {
         front_default: string    
       },
@@ -28,7 +31,7 @@ const App:React.FC = () => {
     }[]
   }
 
-  type selectedSpriteType = {
+   type selectedSpriteType = {
     id: number;
     name: string;
     sprites: {
@@ -72,8 +75,6 @@ const App:React.FC = () => {
 
     return () => {
       ignore = true;
-      setPokemon([])
-      setPokemonDescriptions([])
     };
   }, []);
 
@@ -116,3 +117,4 @@ const App:React.FC = () => {
 };
 
 export default App;
+

@@ -41,6 +41,7 @@ const Modal = ({ selectedCard, selectedSprite, show, showModal }: props) => {
     .replace(`/u'\u00ad'/`, `/u''/`)
     .replace(`/u' -\n'/`, `/u' - '/`)
     .replace(`/u'-\n'/`, `/u'-'/`)
+    .replace(`/u'\u000c'/`,`/u' '/`)
     .replace(`/u'\n'/`, `/u' '/`);
 
   return show ? (
