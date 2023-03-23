@@ -31,18 +31,11 @@ const Modal = ({ selectedCard, selectedSprite, show, showModal }: props) => {
     //using for loop so that we can break it as soon as first english entry is found
     if (selectedCard[0]?.flavor_text_entries[i]?.language?.name === "en") {
       englishText =
-        selectedCard[0].flavor_text_entries[i].flavor_text.toString();
+        selectedCard[0].flavor_text_entries[i].flavor_text.toString().replace('\f','\n');
       break;
     }
   }
-  englishText
-    .replace(`/u'\f'/'`, `/u'\n'/`)
-    .replace(`/u'\u00ad\n'/`, `/u''/`)
-    .replace(`/u'\u00ad'/`, `/u''/`)
-    .replace(`/u' -\n'/`, `/u' - '/`)
-    .replace(`/u'-\n'/`, `/u'-'/`)
-    .replace(`/u'\u000c'/`,`/u' '/`)
-    .replace(`/u'\n'/`, `/u' '/`);
+  
 
   return show ? (
     <div className="modalbg">
