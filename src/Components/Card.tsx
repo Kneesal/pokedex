@@ -1,19 +1,14 @@
 import React from "react";
+import {type pokemonType} from '../Container/App'
 
 
 interface cardProps {
-  pokemon: {
-    id: number,
-    name: string, 
-    sprites: {
-      front_default: string    
-    },
-  }[]
-  showModal: (key: number) => void
+  pokemon: pokemonType
+  showModal: (key: number) => void,
 }
 
 
-const Card:React.FC<cardProps> = ({ pokemon, showModal}) => {
+const Card = ({ pokemon, showModal}:cardProps) => {
   console.log(pokemon)
   pokemon.sort((a, b) => a.id - b.id); //sort array so that it gives the correct order of the pokedex each time
   return (

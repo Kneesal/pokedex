@@ -1,14 +1,14 @@
 
-import React from "react";
+import React, { ChangeEvent } from "react";
 
  interface props {
-    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+    handleChange: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
 const SearchBox = ({handleChange}:props) => {
     return (
         <div className="searchbox">
-        <input type="search" onChange={handleChange}></input>
+        <input type="search" onChange={(e) =>handleChange(e)}></input>
         </div>
     )
 }

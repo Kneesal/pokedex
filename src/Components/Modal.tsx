@@ -35,7 +35,6 @@ const Modal = ({ selectedCard, selectedSprite, show, showModal }: props) => {
       break;
     }
   }
-  
 
   return show ? (
     <div className="modalbg">

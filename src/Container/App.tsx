@@ -5,7 +5,44 @@ import Modal from "../Components/Modal";
 import Scroll from "../Components/Scroll";
 import "../fonts/PokemonSolid.ttf";
 
-const App:React.FC = () => {
+export type  pokemonType = {
+  id: number;
+  name: string;
+  species: {
+    url: string;
+  };
+  sprites: {
+    front_default: string;
+  };
+}[];
+
+interface IpokeList {
+  results: {
+    name: string;
+    url: string;
+  }[];
+}
+
+type selectedSpriteType = {
+  id: number;
+  name: string;
+  sprites: {
+    front_default: string;
+  };
+}[];
+
+type selectedCardType = {
+  name: string;
+  id: number;
+  flavor_text_entries: {
+    language: {
+      name: string;
+    };
+    flavor_text: string;
+  }[];
+}[];
+
+const App: React.FC = () => {
   const [pokemon, setPokemon] = useState<pokemonType>([]);
   const [pokemondescriptions, setPokemonDescriptions] = useState([]);
   const [searchinput, setSearchInput] = useState("");
@@ -13,52 +50,16 @@ const App:React.FC = () => {
   const [selectedCard, setSelectedCard] = useState<selectedCardType>([]);
   const [selectedSprite, setSelectedSprite] = useState<selectedSpriteType>([]);
 
-  type pokemonType = {
-      id: number,
-      name: string, 
-      species: {
-        url: string
-      },
-      sprites: {
-        front_default: string    
-      },
-  }[]
 
-  interface pokeList {
-    results:{
-      name: string,
-      url: string
-    }[]
-  }
-
-   type selectedSpriteType = {
-    id: number;
-    name: string;
-    sprites: {
-      front_default: string;
-    };
-  }[]
-
-  type selectedCardType = {
-    name: string,
-    id: number,
-    flavor_text_entries: {
-      language: {
-        name: string
-      }, 
-    flavor_text:string}[]
-  }[]
-  
 
   useEffect(() => {
     let ignore = false;
 
-
-    const fetchData = async() => {
+    const fetchData = async () => {
       const response = await fetch(
         `https://pokeapi.co/api/v2/pokemon/?limit=904`
       ); //fetch all pokemon
-      const pokemonlist:pokeList = await response.json()
+      const pokemonlist: IpokeList = await response.json();
 
       pokemonlist.results.forEach(async (pokemon) => {
         const response = await fetch(pokemon.url); //fetch pokemon specific data
@@ -75,18 +76,21 @@ const App:React.FC = () => {
 
     return () => {
       ignore = true;
-    };
-  }, []);
 
-  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    };
+  },[]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>):void => {
     e.preventDefault();
     setSearchInput(e.target.value);
   };
 
-  const showModal = (key:number) => {
+  const showModal = (key: number):void => {
     setShow((prevstate) => !prevstate);
     setSelectedCard(
-      pokemondescriptions.filter((pokemon:{id: number}) => pokemon.id  === key)
+      pokemondescriptions.filter(
+        (pokemon: { id: number }) => pokemon.id === key
+      )
     );
     setSelectedSprite(pokemon.filter((data) => data.id === key));
   };
@@ -117,4 +121,3 @@ const App:React.FC = () => {
 };
 
 export default App;
-
